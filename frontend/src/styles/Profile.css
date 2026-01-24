@@ -1,0 +1,22 @@
+.profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+  background: #fdf6f0;
+  min-height: 80vh;
+}
+
+.profile-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 400px;
+}
+
+.profile-quote {
+  margin-top: 20px;
+  font-style: italic;
+  color: #6d4c41;
+}

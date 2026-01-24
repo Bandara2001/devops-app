@@ -1,6 +1,6 @@
 .dashboard-container {
   min-height: 100vh;
-  background: linear-gradient(to right, #8360c3, #2ebf91);
+  background: linear-gradient(to right, #c37260, #bf572e);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,6 +41,15 @@
 }
 
 .dashboard-btn:hover {
-  background: #6c63ff;
+  background: #f2935f;
   color: white;
+}
+
+.about-section {
+  margin-top: 40px;
+  background: #6c4d19;
+  padding: 25px;
+  border-radius: 15px;
+  max-width: 700px;
+  text-align: center;
 }
