@@ -8,14 +8,13 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
-                echo '🔄 Checking out source code from GitHub...'
+                echo ' Checking out source code from GitHub...'
                 git branch: 'main',
                     url: 'https://github.com/Bandara2001/booksy-docker.git',
                     credentialsId: 'github-token'
-                sh 'ls -R'  // Verifies Jenkins has frontend, backend, and ansible folders
+                sh 'ls -R'  // 👈 Verifies Jenkins has frontend & backend folders
             }
         }
 
@@ -24,28 +23,28 @@ pipeline {
                 echo '🔍 Checking for Dockerfiles...'
                 sh '''
                 if [ ! -f frontend/Dockerfile ]; then
-                    echo "❌ Missing frontend/Dockerfile"
+                    echo " Missing frontend/Dockerfile"
                     exit 1
                 fi
                 if [ ! -f backend/Dockerfile ]; then
-                    echo "❌ Missing backend/Dockerfile"
+                    echo "Missing backend/Dockerfile"
                     exit 1
                 fi
-                echo "✅ Dockerfiles found!"
+                echo " Dockerfiles found!"
                 '''
             }
         }
 
         stage('Build Docker Images') {
             steps {
-                echo '🛠 Building Docker images...'
+                echo ' Building Docker images...'
                 sh 'docker compose build'
             }
         }
 
         stage('Login to Docker Hub') {
             steps {
-                echo '🔑 Logging into Docker Hub...'
+                echo ' Logging into Docker Hub...'
                 withCredentials([usernamePassword(
                     credentialsId: 'docker-hub-credentials',
                     usernameVariable: 'DOCKER_USER',
@@ -58,7 +57,7 @@ pipeline {
 
         stage('Push Images to Docker Hub') {
             steps {
-                echo '🚀 Pushing images to Docker Hub...'
+                echo ' Pushing images to Docker Hub...'
                 script {
                     sh """
                     docker tag booksy-docker-frontend:latest $DOCKER_HUB_USER/$DOCKER_HUB_REPO_FRONTEND:latest
@@ -69,23 +68,14 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy on EC2 via Ansible') {
-            steps {
-                echo '📦 Deploying application on EC2 using Ansible...'
-                sh '''
-                ansible-playbook -i ansible/inventory.ini ansible/deploy.yml
-                '''
-            }
-        }
     }
 
     post {
         success {
-            echo '🎉 Pipeline completed successfully!'
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo '❌ Pipeline failed. Check the logs for details.'
+            echo 'Pipeline failed. Check logs for details.'
         }
     }
 }

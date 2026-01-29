@@ -11,26 +11,15 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    // Split full name into first and last
-    const nameParts = name.trim().split(" ");
-    const firstName = nameParts[0] || name;
-    const lastName = nameParts.slice(1).join(" ") || "";
-
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
-        firstName,
-        lastName,
-        username: email,  // backend expects username
+      await axios.post("http://localhost:5000/api/users/register", {
+        name,
         email,
-        age: 20,          // default age, you can update if you collect it
         password,
       });
-
       alert("Registration successful!");
-      navigate("/"); // go to login page
+      navigate("/");
     } catch (err) {
-      console.error(err.response?.data || err);
       alert("Error registering. Try again.");
     }
   };

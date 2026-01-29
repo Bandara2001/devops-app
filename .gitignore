@@ -1,16 +1,5 @@
-# Node.js / Frontend
-node_modules/
+echo "node_modules/
 dist/
 build/
 .env
-.DS_Store
-
-# Terraform
-.terraform/
-*.tfstate
-*.tfstate.*
-crash.log
-.terraform.lock.hcl
-
-# Optional / OS
-*.log
+.DS_Store" > .gitignore
