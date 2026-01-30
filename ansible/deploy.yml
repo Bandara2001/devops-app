@@ -1,0 +1,52 @@
+---
+- name: Deploy Booksy App
+  hosts: booksy_servers
+  become: yes
+
+  tasks:
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker and Docker Compose
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - docker.io
+        - docker-compose
+
+    - name: Ensure Docker service is running
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull frontend Docker image
+      docker_image:
+        name: oshinibandara2001/devops-frontend
+        source: pull
+
+    - name: Pull backend Docker image
+      docker_image:
+        name: oshinibandara2001/devops-backend
+        source: pull
+
+    - name: Run backend container
+      docker_container:
+        name: booksy-backend
+        image: oshinibandara2001/devops-backend
+        state: started
+        restart_policy: always
+        ports:
+          - "5000:5000"
+
+    - name: Run frontend container
+      docker_container:
+        name: booksy-frontend
+        image: oshinibandara2001/devops-frontend
+        state: started
+        restart_policy: always
+        ports:
+          - "3000:3000"
