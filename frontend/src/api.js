@@ -1,4 +1,5 @@
-const API_BASE = "http://localhost:5000/api"; // Or container name in Docker
+const API_BASE = process.env.REACT_APP_API_URL;
+ // Or container name in Docker
 
 export const registerUser = async (data) => {
   const res = await fetch(`${API_BASE}/auth/register`, {
