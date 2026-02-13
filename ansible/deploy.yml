@@ -33,10 +33,22 @@
         name: oshinibandara2001/devops-backend
         source: pull
 
+    # 👇 Stop and remove old backend container if exists
+    - name: Stop backend container
+      docker_container:
+        name: booksy-backend
+        state: absent
+
+    # 👇 Stop and remove old frontend container if exists
+    - name: Stop frontend container
+      docker_container:
+        name: booksy-frontend
+        state: absent
+
     - name: Run backend container
       docker_container:
         name: booksy-backend
-        image: oshinibandara2001/devops-backend
+        image: oshinibandara2001/devops-backend:latest
         state: started
         restart_policy: always
         ports:
@@ -45,7 +57,7 @@
     - name: Run frontend container
       docker_container:
         name: booksy-frontend
-        image: oshinibandara2001/devops-frontend
+        image: oshinibandara2001/devops-frontend:latest
         state: started
         restart_policy: always
         ports:
